@@ -13,6 +13,7 @@ const DropDownField = () => {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.label}>DropDown Field</Text>
             <DropDownPicker
                 open={open}
                 value={value}
@@ -31,7 +32,7 @@ const DropDownField = () => {
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 10,

@@ -4,7 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const SingleLineTextInput = () => {
 
-   const [text, onChangeText] = useState('Useless Text');
+   const [text, setText] = useState('');
+   const onChangeText = (val)=>{setText(val)};
     return (
         <SafeAreaView>
             <View style={styles.container}>
@@ -25,7 +26,7 @@ const SingleLineTextInput = () => {
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
         justifyContent: 'center',
         padding: width * 0.05,
     },
