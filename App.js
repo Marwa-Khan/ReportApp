@@ -6,22 +6,24 @@ import SingleLineTextInput from './src/components/SingleLineTextInput';
 import MultiLineTextInput from './src/components/MultiLineTextInput';
 import DropDownField from './src/components/DropDownField';
 import RadioButtonField from './src/components/RadioButtonField';
+import Navigation from './src/navigation/Navigation';
 
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      {/* <Text>Open up App.js to start working on your app!</Text> */}
-      {/* <LoginScreen/> */}
-      {/* <SingleLineTextInput/> */}
-      {/* <MultiLineTextInput/> */}
-      {/* <DropDownField/> */}
-      <RadioButtonField/>
-
-
-      <StatusBar style="auto" />
+    // <View style={styles.container}>
+      // {/* <Text>Open up App.js to start working on your app!</Text> */}
+      // {/* <LoginScreen/> */}
+      // {/* <SingleLineTextInput/> */}
+      // {/* <MultiLineTextInput/> */}
+      // {/* <DropDownField/> */}
+      // {/* <RadioButtonField/> */}
       
-    </View>
+      
+      // <StatusBar style="auto" />
+      
+      // </View>
+      <Navigation/>
   );
 }
 

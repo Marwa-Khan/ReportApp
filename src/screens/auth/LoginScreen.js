@@ -4,14 +4,20 @@ import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ApiEndPoint, baseURL } from '../../hooks';
+import Navigation from '../../navigation/Navigation';
+import {
+    useNavigation,
+  } from '@react-navigation/native';
 
 const LoginScreen = () => {
+    const navigation = useNavigation();
     const [userName, setUserName] = useState('');
     const [uuid, setUuid] = useState('Te8q9');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleLogin = async () => {
+        
         const loginApiEndpoint = `${baseURL}${ApiEndPoint.loginApi}`;
         console.log('Login API Endpoint:', loginApiEndpoint);
         console.log('User Name:', userName);
@@ -26,7 +32,7 @@ const LoginScreen = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ uuid: uuid, password: password }), //convert object to string to send it to web server
+                body: JSON.stringify({ "uuid": uuid, "password": password }), //convert object to string to send it to web server
             });
 
             const statusCode = response.status;
@@ -46,6 +52,7 @@ const LoginScreen = () => {
                         await AsyncStorage.setItem('userToken', data.token);
                         await AsyncStorage.setItem('userData', JSON.stringify(data.user));
                         Alert.alert('Success', `Welcome, ${data.user.name}!`);
+                        navigation.navigate("Home");
                     } else {
                         Alert.alert('Error', 'Login failed. Please check your credentials.');
                     }
@@ -67,8 +74,7 @@ const LoginScreen = () => {
     };
 
     return (
-        <SafeAreaProvider>
-            <SafeAreaView>
+        
                 <View style={styles.container}>
                     <Text style={styles.label}>User Name</Text>
                     <TextInput
@@ -90,11 +96,10 @@ const LoginScreen = () => {
                     {loading ? (
                         <ActivityIndicator size="large" color="#0000ff" /> // Show loading spinner while logging in
                     ) : (
-                        <Button title="Login" onPress={handleLogin} disabled={loading} />
+                    <Button title="Login" onPress={handleLogin} disabled={loading} />
                     )}
                 </View>
-            </SafeAreaView>
-        </SafeAreaProvider>
+        
     );
 };
 
@@ -104,7 +109,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
+        alignItems: 'center',
         padding: width * 0.05,
+
     },
     label: {
         fontSize: width * 0.04,
