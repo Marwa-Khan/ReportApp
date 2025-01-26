@@ -8,11 +8,11 @@ import DateField from '../../components/DateField';
 import { ApiEndPoint, baseURL } from '../../hooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 const FormScreen =() => {
     const [loading, setLoading] = useState(false);
     const [dateVal, setDateVal]= useState(new Date());
     const [formattedDate, setFormattedDate] = useState('');
+    const [APIData, setAPIData]=useState({};)
     useEffect(() => {
         const initialize = async () => {
             try {
@@ -94,9 +94,9 @@ const FormScreen =() => {
     <View style={styles.container}>
       <Text style={styles.label}> FormScreen</Text>
       <SingleLineTextInput/>
-      
       <MultiLineTextInput/>
       <DropDownField/>
+      <CheckBoxField/>
       <Text style={{ marginBottom: 10 }}>Selected Date: {formattedDate || 'No date selected'}</Text>
       <DateField dateVal={dateVal} setDateVal={setDateVal} setFormattedDate={setFormattedDate}/>
       {/* <CheckBoxField/> */}
