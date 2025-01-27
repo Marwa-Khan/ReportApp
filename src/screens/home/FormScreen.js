@@ -49,6 +49,9 @@ const FormScreen = () => {
       value: "option-3",
     },
   ]);
+  const [checkBoxData, setCheckBoxData] = useState(null);
+  const [token, setToken] = useState("");
+  const [uuid, setUuid] = useState('Te8q9');
 
   const [dropDownData, setDropDownData] = useState([
     { label: "Monday", value: "Option1" },
@@ -60,15 +63,16 @@ const FormScreen = () => {
     { label: "Sunday", value: "Option7" },
   ]);
 
-  const [checkBoxData, setCheckBoxData] = useState(null);
+  
   useEffect(() => {
     const initialize = async () => {
       try {
         console.log("hei from useEffect");
-        const token = await AsyncStorage.getItem("userToken");
-        console.log("Retrieved token:", token);
+        const token1 = await AsyncStorage.getItem("userToken");
+        console.log("Retrieved token:", token1);
         // Call fetchForm() after getting the token
-        fetchForm(token);
+        setToken(token1);
+        fetchForm(token1);
       } catch (error) {
         console.error("Error in useEffect:", error);
       }
@@ -134,19 +138,70 @@ const FormScreen = () => {
       setLoading(false);
     }
   };
-
+ 
+//   submit form data to APi
+const postData = async () => {
+    console.log("Token data in post:", token);
+    setLoading(true); // Indicate loading
+  
+    const currentTime = new Date().toISOString(); // Current time in ISO format
+    console.log("Current Time:", currentTime);
+  
+    try {
+      const response = await fetch(`${baseURL}${ApiEndPoint.PostFormDataApi}`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userid: uuid, // User ID from login API response
+          sitename: "Test Site", // Hardcoded site name
+          site_id: 1, // Static site ID
+          time: currentTime, // Current time in ISO format
+          data: JSON.stringify([
+            { type: "text", label: textData },
+            { type: "textarea", label: multiText },
+            { type: "select", label: dropDownData },
+            { type: "radio-group", label: radioData },
+            { type: "checkbox", label: checkBoxData },
+          ]), // Form data stringified
+          comment: "This is a test comment", // Dummy comment for the report
+          type: "incident", // Report type
+          images: "", // Blank as required
+          lati: "", // Blank as required
+          longi: "", // Blank as required
+        }),
+      });
+  
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        console.log("Form submitted successfully:", jsonResponse);
+        Alert.alert("Success", "Form submitted successfully!");
+      } else {
+        const errorResponse = await response.text(); // Read server error response
+        console.error("Failed to submit form:", response.status, errorResponse);
+        Alert.alert("Error", `Failed to submit form. Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error during form submission:", error);
+      Alert.alert("Error", "Something went wrong. Please try again later.");
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+  
+  
 
 
 
   return (
       <ScrollView
         style={styles.scrollView}
-       
-        
       >
     <View style={styles.container}>
         <Text style={styles.label}>FormScreen</Text>
-
         {/* Components */}
         <SingleLineTextInput textData={textData} setTextData={setTextData} />
         <MultiLineTextInput
@@ -166,13 +221,17 @@ const FormScreen = () => {
          <Text style={{ marginBottom: 10 }}>
           Selected Date: {formattedDate || "No date selected"} 
         </Text>
-        
         <TouchableOpacity onPress={()=>setOpenDateCalendar(true)} style={styles.dateButton}>
           <Text style={styles.dateButtonText}>Select Date</Text>
         </TouchableOpacity> 
         {/* Uncomment if DateField is needed */}
       {openDateCalendar &&  <DateField dateVal={dateVal} setDateVal={setDateVal} setFormattedDate={setFormattedDate} setOpenDateCalendar={setOpenDateCalendar} />}
-       
+        <TouchableOpacity
+          style={styles.button}
+          onPress={postData}
+        >
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
     </View>
       </ScrollView>
   );
@@ -203,6 +262,19 @@ const styles = StyleSheet.create({
     fontSize: width * 0.05,
     marginBottom: height * 0.02,
   },
+    button: {
+        backgroundColor: "blue",
+        padding: 10,
+        borderRadius: 5,
+        marginVertical: 10,
+        width: "50%",
+        alignSelf: "center",     
+    },
+    buttonText: {
+        color: "white",
+        textAlign: "center",
+        fontSize: 18,
+    },
 });
 
 export default FormScreen;

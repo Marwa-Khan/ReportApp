@@ -16,24 +16,17 @@ const DateField = ({dateVal, setDateVal, setFormattedDate,setOpenDateCalendar}) 
     if (event.type === "dismissed") {
       setOpenDateCalendar(false); // Close the date picker
     }
-
     if (event.type === "neutralButtonPressed") {
       setOpenDateCalendar(false); // Close the date picker
     }
-
   };
-
-
   return (
     <View>
-      
       <DateTimePicker 
                   mode="datetime"
                   value={dateVal}
                   style={{width: 300, opacity: 1, height: 30, marginTop: 50}}
                   onChange={handleDateChange}
-                  
-                  
                
                 //   minuteInterval={{}}
                 />
