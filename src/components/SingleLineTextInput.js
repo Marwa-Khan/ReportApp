@@ -2,45 +2,70 @@ import {React, useState} from "react";
 import { View, Text, TextInput, StyleSheet, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const SingleLineTextInput = () => {
+const SingleLineTextInput = ({textData,setTextData}) => {
+   
 
-   const [text, setText] = useState('');
-   const onChangeText = (val)=>{setText(val)};
+   const onChangeText = (val)=>{setTextData(val)};
     return (
-        <SafeAreaView>
             <View style={styles.container}>
-                <Text style={styles.label}>Text Input</Text>
+                <Text style={styles.label}>Single Line Text Input</Text>
+                <View style={styles.viewInput}>
                 <TextInput
                     style={styles.input}
-                    placeholder="enter text"
-                    value={text}
+                    placeholder="Enter text"
+                    value={textData}
                     onChangeText={onChangeText}
+                    multiline={false}
                     // secureTextEntry={secureTextEntry}
                     autoCapitalize="none"
                 />
+                </View>
             </View>
-        </SafeAreaView>
     );
 };
 
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
+        // marginTop:200,
+        // paddingTop: 20,
         // flex: 1,
-        justifyContent: 'center',
-        padding: width * 0.05,
+        // justifyContent: 'center',
+        // // padding: width * 0.05,
+        // // alignItems: 'center',
+        // width: '90%',
+        backgroundColor:'orange', 
+        alignSelf: 'center',
+        height: 120,
+
+        
     },
     label: {
         fontSize: width * 0.04,
         marginBottom: height * 0.01,
     },
+    viewInput:{
+        // width: '90%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        
+        
+    },
     input: {
-        height: height * 0.06,
+        width:'90%',
+        height: 50,
+        fontSize:13,
         borderColor: 'gray',
         borderWidth: 1,
-        marginBottom: height * 0.02,
+        color:'black',
+        justifyContent: 'center',
+        alignItems: 'center',
+        // marginBottom: height * 0.02,
         paddingHorizontal: width * 0.02,
+        
+
     },
+    
 });
 
 export default SingleLineTextInput;

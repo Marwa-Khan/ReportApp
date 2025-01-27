@@ -1,50 +1,47 @@
-
-
-import React, { useMemo, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
-import { View, Text,StyleSheet, Dimensions } from 'react-native';
 
-const RadioButtonField = () => { 
-    const radioButtons = useMemo(() => ([
-        {
-            id: '1', // acts as primary key, should be unique and non-empty string
-            label: 'Option 1',
-            value: 'option1'
-        },
-        {
-            id: '2',
-            label: 'Option 2',
-            value: 'option2'
+const RadioButtonField = ({ radioData, setRadioData }) => {
+    const [selectedId, setSelectedId] = useState(null);
+
+    // Set the selectedId when radioData changes
+    useEffect(() => {
+        const selectedOption = radioData.find(item => item.selected);
+        if (selectedOption) {
+            setSelectedId(selectedOption.id);
         }
-    ]), []);
+    }, [radioData]);
 
-    const [selectedId, setSelectedId] = useState(null);   
+    // Handle radio button selection
+    const handleSelect = (selected) => {
+        // console.log('Selected:', selected);
+        const updatedData = radioData.map((item) =>
+            item.id === selected ? { ...item, selected: true } : { ...item, selected: false }
+        );
+        setRadioData(updatedData); // Pass updated data back to parent
+        setSelectedId(selected.id); // Update the local selected state
+        
+    };
+
     return (
-        <View>
+        <View style={{flex:1, backgroundColor:'orange', height: '20%', padding: 10}}>
             <Text>Please select an option:</Text>
-            <RadioGroup 
-                radioButtons={radioButtons} 
-                onPress={setSelectedId}
-                selectedId={selectedId}
+            <RadioGroup
+            
+                radioButtons={radioData}
+                onPress={(val) => handleSelect(val)} // Handle selection
+                selectedId={selectedId} // Set the selected ID for the RadioGroup
+                layout="column" // Layout of the radio buttons (vertical)
+                containerStyle={styles.radioGroupContainer} // Container styling
             />
         </View>
     );
 };
-const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: width * 0.04,
-    },
-    text: {
-        fontSize: width * 0.045,
-        marginBottom: height * 0.02,
-    },
-    radioGroup: {
-        width: '100%',
+    radioGroupContainer: {
+        // marginTop: 10,
     },
 });
 

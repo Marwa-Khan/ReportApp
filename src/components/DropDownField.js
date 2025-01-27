@@ -3,27 +3,25 @@ import { View, Text, TextInput, StyleSheet, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DropDownPicker from 'react-native-dropdown-picker';
 
-const DropDownField = () => {
+const DropDownField = ( {dropDownData, setDropDownData}) => {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
-    const [items, setItems] = useState([
-        { label: 'Option1', value: 'Option1' },
-        { label: 'Option2', value: 'Option2' }
-    ]);
+   
 
     return (
         <View style={styles.container}>
             <Text style={styles.label}>DropDown Field</Text>
-            <DropDownPicker
+
+            <DropDownPicker style={styles.dropdown}
                 open={open}
                 value={value}
-                items={items}
+                items={dropDownData}
                 setOpen={setOpen}
                 setValue={setValue}
-                setItems={setItems}
-                style={styles.dropdown}
+                onChangeValue={(val)=>console.log(val)}
+                setItems={setDropDownData}
                 containerStyle={styles.dropdownContainer}
-                placeholder="Select an option from list"
+                placeholder="Select a day from list"
             />
         </View>
     );
@@ -32,14 +30,22 @@ const DropDownField = () => {
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
+        // height: '60%',
         // flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 10,
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        // padding: 10,
+        backgroundColor: 'yellow',
+        height: 100,
+        padding: width * 0.03,
+    },
+    label: {
+        fontSize: width * 0.04,
+        marginBottom: height * 0.01,
     },
     dropdown: {
         width: width * 0.8,
-        height: 40,
+        height: height * 0.05,
     },
     dropdownContainer: {
         width: width * 0.8,
