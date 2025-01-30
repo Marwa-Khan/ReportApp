@@ -10,6 +10,7 @@ import {
   StatusBar,
   Pressable,
   TouchableOpacity,
+  Button,
 } from "react-native";
 import { React, useEffect, useState } from "react";
 import SingleLineTextInput from "../../components/SingleLineTextInput";
@@ -20,9 +21,12 @@ import DateField from "../../components/DateField";
 import { ApiEndPoint, baseURL } from "../../hooks";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import RadioButtonField from "../../components/RadioButtonField";
+import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 const FormScreen = () => {
+
+  const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const [dateVal, setDateVal] = useState(new Date());
   const [formattedDate, setFormattedDate] = useState("");
@@ -51,7 +55,8 @@ const FormScreen = () => {
   ]);
   const [checkBoxData, setCheckBoxData] = useState(null);
   const [token, setToken] = useState("");
-  const [uuid, setUuid] = useState('Te8q9');
+  const [uuid, setUuid] = useState("Te8q9");
+  const [logOut,setLogOut] = useState(true);
 
   const [dropDownData, setDropDownData] = useState([
     { label: "Monday", value: "Option1" },
@@ -63,7 +68,6 @@ const FormScreen = () => {
     { label: "Sunday", value: "Option7" },
   ]);
 
-  
   useEffect(() => {
     const initialize = async () => {
       try {
@@ -138,51 +142,63 @@ const FormScreen = () => {
       setLoading(false);
     }
   };
- 
-//   submit form data to APi
-const postData = async () => {
-    console.log("Token data in post:", token);
+
+  //   submit form data to APi
+  const postData = async () => {
+    // console.log("Token data in post:", token);
     setLoading(true); // Indicate loading
-  
-    const currentTime = new Date().toISOString(); // Current time in ISO format
-    console.log("Current Time:", currentTime);
-  
+
+    // const currentTime = new Date().toISOString(); // Current time in ISO format
+    // console.log("Current Time:", currentTime);
+
     try {
       const response = await fetch(`${baseURL}${ApiEndPoint.PostFormDataApi}`, {
         method: "POST",
         headers: {
-          Accept: "application/json",
+          "Accept": "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify({
-          userid: uuid, // User ID from login API response
-          sitename: "Test Site", // Hardcoded site name
-          site_id: 1, // Static site ID
-          time: currentTime, // Current time in ISO format
-          data: JSON.stringify([
-            { type: "text", label: textData },
-            { type: "textarea", label: multiText },
-            { type: "select", label: dropDownData },
-            { type: "radio-group", label: radioData },
-            { type: "checkbox", label: checkBoxData },
-          ]), // Form data stringified
-          comment: "This is a test comment", // Dummy comment for the report
-          type: "incident", // Report type
-          images: "", // Blank as required
-          lati: "", // Blank as required
-          longi: "", // Blank as required
-        }),
+            userid: "772", // User ID from login API response
+            sitename: "Test Site", // Hardcoded site name
+            site_id: 1, // Static site ID
+            time: new Date().toISOString(), // Current time in ISO format
+            data: JSON.stringify([
+              { type: "text", label: textData },
+              { type: "textarea", label: multiText },
+              { type: "select", label: dropDownData },
+              { type: "radio-group", label: radioData },
+              { type: "checkbox", label: checkBoxData }
+            ]), // Form data stringified
+            comment: "This is a test comment", // Dummy comment for the report
+            type: "incident", // Report type
+            images: "", // Blank as required
+            lati: "", // Blank as required
+            longi: "", // Blank as required
+          }),
+          
       });
-  
-      if (response.ok) {
+      if (response.status === 200) {
         const jsonResponse = await response.json();
         console.log("Form submitted successfully:", jsonResponse);
-        Alert.alert("Success", "Form submitted successfully!");
+        // Alert.alert("Success", "Form submitted successfully!");
+        Alert.alert('Alert Title', 'Form Submission', [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => setLogOut(false)},
+          ]);
+      
       } else {
         const errorResponse = await response.text(); // Read server error response
         console.error("Failed to submit form:", response.status, errorResponse);
-        Alert.alert("Error", `Failed to submit form. Status: ${response.status}`);
+        Alert.alert(
+          "Error",
+          `Failed to submit form. Status: ${response.status}`
+        );
       }
     } catch (error) {
       console.error("Error during form submission:", error);
@@ -191,23 +207,19 @@ const postData = async () => {
       setLoading(false); // Stop loading
     }
   };
-  
-  
-
-
 
   return (
-      <ScrollView
-        style={styles.scrollView}
-      >
-    <View style={styles.container}>
+
+   
+    <ScrollView style={styles.scrollView}>
+        { logOut ?
+    
+
+      <View style={styles.container}>
         <Text style={styles.label}>FormScreen</Text>
         {/* Components */}
         <SingleLineTextInput textData={textData} setTextData={setTextData} />
-        <MultiLineTextInput
-          multiText={multiText}
-          setMultiText={setMultiText}
-        />
+        <MultiLineTextInput multiText={multiText} setMultiText={setMultiText} />
         <DropDownField
           dropDownData={dropDownData}
           setDropDownData={setDropDownData}
@@ -216,24 +228,44 @@ const postData = async () => {
           checkBoxData={checkBoxData}
           setCheckBoxData={setCheckBoxData}
         />
-        
+
         <RadioButtonField radioData={radioData} setRadioData={setRadioData} />
-         <Text style={{ marginBottom: 10 }}>
-          Selected Date: {formattedDate || "No date selected"} 
+        <Text style={{ marginBottom: 10 }}>
+          Selected Date: {formattedDate || "No date selected"}
         </Text>
-        <TouchableOpacity onPress={()=>setOpenDateCalendar(true)} style={styles.dateButton}>
-          <Text style={styles.dateButtonText}>Select Date</Text>
-        </TouchableOpacity> 
-        {/* Uncomment if DateField is needed */}
-      {openDateCalendar &&  <DateField dateVal={dateVal} setDateVal={setDateVal} setFormattedDate={setFormattedDate} setOpenDateCalendar={setOpenDateCalendar} />}
         <TouchableOpacity
-          style={styles.button}
-          onPress={postData}
+          onPress={() => setOpenDateCalendar(true)}
+          style={styles.dateButton}
         >
+          <Text style={styles.dateButtonText}>Select Date</Text>
+        </TouchableOpacity>
+        {/* Uncomment if DateField is needed */}
+        {openDateCalendar && (
+          <DateField
+            dateVal={dateVal}
+            setDateVal={setDateVal}
+            setFormattedDate={setFormattedDate}
+            setOpenDateCalendar={setOpenDateCalendar}
+          />
+        )}
+        <TouchableOpacity style={styles.button} onPress={postData}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
-    </View>
-      </ScrollView>
+      </View>
+
+      :
+      <View style={styles.logoutContainer}>
+        <TouchableOpacity style={styles.logout} onPress={()=>  (AsyncStorage.clear(),navigation.navigate("Auth"))}>
+        <Text style={styles.logoutText}>Log Out</Text>
+      </TouchableOpacity>
+      
+        </View>
+
+
+
+}
+      
+    </ScrollView>
   );
 };
 
@@ -242,39 +274,60 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     backgroundColor: "pink",
-    marginBottom:100
+    marginBottom: 100,
   },
   scrollView: {
-    flex:1,
-    backgroundColor:"yellow",
+    flex: 1,
+    backgroundColor: "yellow",
     // Do not use flex: 1 here
     width: "100%",
-    paddingBottom:100
+    paddingBottom: 100,
   },
   contentContainer: {
     flex: 1, // Allow content to grow dynamically
     // paddingBottom: 120, // Add spacing to avoid cutting off content
     // paddingHorizontal: width * 0.05,
     // backgroundColor: "blue",
-
   },
   label: {
     fontSize: width * 0.05,
     marginBottom: height * 0.02,
   },
-    button: {
-        backgroundColor: "blue",
-        padding: 10,
-        borderRadius: 5,
-        marginVertical: 10,
-        width: "50%",
-        alignSelf: "center",     
-    },
-    buttonText: {
-        color: "white",
-        textAlign: "center",
-        fontSize: 18,
-    },
+  button: {
+    backgroundColor: "blue",
+    padding: 10,
+    borderRadius: 5,
+    marginVertical: 10,
+    width: "50%",
+    alignSelf: "center",
+  },
+  buttonText: {
+    color: "white",
+    textAlign: "center",
+    fontSize: 18,
+  },
+  logoutContainer:{
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "yellow",
+    height: height
+  },
+  logout:{
+    backgroundColor: "blue",
+    padding: 10,
+    borderRadius: 5,
+    marginVertical: 10,
+    width: "50%",
+    justifyContent: "center",
+    alignContent: "center",
+    alignSelf: "center",
+  }, 
+  logoutText:{
+    color: "white",
+    justifyContent: "center",
+    textAlign: "center",
+  }
 });
 
 export default FormScreen;

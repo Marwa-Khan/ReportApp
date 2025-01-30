@@ -53,6 +53,8 @@ const LoginScreen = () => {
                         await AsyncStorage.setItem('userData', JSON.stringify(data.user));
                         Alert.alert('Success', `Welcome, ${data.user.name}!`);
                         navigation.navigate("Home");
+                     
+
                     } else {
                         Alert.alert('Error', 'Login failed. Please check your credentials.');
                     }
