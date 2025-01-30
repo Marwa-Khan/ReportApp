@@ -83,6 +83,8 @@ const FormScreen = () => {
     };
     initialize(); // Call the async function
   }, []);
+
+//   fields data fetch from API
   const fetchForm = async (token) => {
     console.log("Fetching token inside fetchform:", token); // Log the fetch operation
     // setLoading(true);
@@ -208,6 +210,42 @@ const FormScreen = () => {
     }
   };
 
+
+//   log out function
+
+
+const logout = async () => {
+    try {
+      // Send POST request to the logout endpoint
+      const response = await fetch(`${baseURL}${ApiEndPoint.logoutApi}`, {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}` // Use the current token for authorization
+        },
+      });
+  
+      // Check if the response is successful
+      if (response.ok) {
+        // Clear token and user data from local storage
+        AsyncStorage.removeItem("userToken"); // Clear token
+        // AsyncStorage.removeItem("userData"); // Clear user data
+        console.log("Logout successful!");
+        // Optionally redirect to login page or show confirmation
+        Alert.alert("Success", "You have logged out successfully.");
+      } else {
+        const errorResponse = await response.text();
+        console.error("Failed to logout:", response.status, errorResponse);
+        Alert.alert("Error", `Logout failed. Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+      Alert.alert("Error", "Something went wrong. Please try again later.");
+    }
+  };
+  
+
   return (
 
    
@@ -255,7 +293,7 @@ const FormScreen = () => {
 
       :
       <View style={styles.logoutContainer}>
-        <TouchableOpacity style={styles.logout} onPress={()=>  (AsyncStorage.clear(),navigation.navigate("Auth"))}>
+        <TouchableOpacity style={styles.logout} onPress={()=>  (logout(), navigation.navigate("Auth"))}>
         <Text style={styles.logoutText}>Log Out</Text>
       </TouchableOpacity>
       
