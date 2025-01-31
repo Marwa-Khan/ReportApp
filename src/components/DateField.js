@@ -11,13 +11,13 @@ const DateField = ({dateVal, setDateVal, setFormattedDate,setOpenDateCalendar}) 
     if (event.type === "set") {
       setDateVal(selectedDate); // Update the state with the new date
       setFormattedDate(convertTimestampToDate(selectedDate.getTime())); // Format the date and update
-      setOpenDateCalendar(false); // Close the date picker
+      setOpenDateCalendar(false); 
     }
     if (event.type === "dismissed") {
-      setOpenDateCalendar(false); // Close the date picker
+      setOpenDateCalendar(false); 
     }
     if (event.type === "neutralButtonPressed") {
-      setOpenDateCalendar(false); // Close the date picker
+      setOpenDateCalendar(false); 
     }
   };
   return (

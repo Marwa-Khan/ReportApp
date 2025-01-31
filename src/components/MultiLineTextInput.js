@@ -27,14 +27,14 @@ const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
         marginVertical: 15,
-        height: 220, // Adjusted height to fit the input field with padding
+        height: 220, 
         width: '90%',
         justifyContent: 'center',
         alignSelf: 'center',
         alignItems: 'center',
-        backgroundColor: '#ffffff', // Changed to white for a clean look
-        borderRadius: 10, // Rounded corners
-        padding: 15, // Added padding for spacing inside the container
+        backgroundColor: '#ffffff', 
+        borderRadius: 10, 
+        padding: 15, 
         shadowColor: "#000", // Shadow color
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.1,
@@ -42,29 +42,29 @@ const styles = StyleSheet.create({
         elevation: 5, // Android shadow effect
     },
     label: {
-        fontSize: width * 0.04, // Dynamic font size
-        color: '#333', // Dark color for better readability
+        fontSize: width * 0.04, 
+        color: '#333', 
         marginBottom: height * 0.01,
-        fontWeight: '600', // Bold label
-        marginRight: width * 0.3, // Added margin for better alignment
+        fontWeight: '600', 
+        marginRight: width * 0.3, 
     },
     viewInput: {
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 140, // Adjust height for input
+        height: 140, 
     },
     input: {
         width: '100%',
-        height: 140, // Input area size
-        fontSize: 16, // Increased font size for better readability
-        borderColor: '#ccc', // Soft border color
+        height: 140, 
+        fontSize: 16, 
+        borderColor: '#ccc', 
         borderWidth: 1,
-        borderRadius: 8, // Rounded corners for the input field
-        color: '#333', // Dark text color for the input
-        paddingHorizontal: width * 0.04, // Padding inside the input
-        textAlignVertical: 'top', // Align text at the top of the input area
-        backgroundColor: '#f9f9f9', // Light background color for the input field
+        borderRadius: 8, 
+        color: '#333', 
+        paddingHorizontal: width * 0.04, 
+        textAlignVertical: 'top', 
+        backgroundColor: '#f9f9f9', 
     },
 });
 

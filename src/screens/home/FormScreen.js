@@ -222,7 +222,7 @@ const logout = async () => {
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}` // Use the current token for authorization
+          "Authorization": `Bearer ${token}` // current token for authorization
         },
       });
   
@@ -232,7 +232,7 @@ const logout = async () => {
         AsyncStorage.removeItem("userToken"); // Clear token
         AsyncStorage.removeItem("userData"); // Clear user data
         console.log("Logout successful!");
-        // Optionally redirect to login page or show confirmation
+        
         Alert.alert("Success", "You have logged out successfully.");
       } else {
         const errorResponse = await response.text();
@@ -277,7 +277,7 @@ const logout = async () => {
         >
           <Text style={styles.dateButtonText}>Select Date</Text>
         </TouchableOpacity>
-        {/* Uncomment if DateField is needed */}
+        
         {openDateCalendar && (
           <DateField
             dateVal={dateVal}
@@ -311,9 +311,11 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-      backgroundColor: "#f5f5f5", // Lighter background color for a cleaner look
+      backgroundColor: "#f5f5f5", 
       paddingHorizontal: 20,
       paddingBottom: 20,
+    //   justifyContent: 'center',
+    //   alignItems:'center'
     },
     scrollView: {
       flex: 1,
@@ -322,68 +324,18 @@ const styles = StyleSheet.create({
       paddingBottom: 20,
     },
     label: {
-      fontSize: width * 0.06, // Slightly larger font size for emphasis
-      fontWeight: "600", // Make label bold for better readability
+      fontSize: width * 0.06, 
+      fontWeight: "600", 
       color: "#333",
       marginBottom: 10,
-      marginTop: 10, // Space above label
+      marginTop: 10, 
     },
     inputFields: {
       marginBottom: 20,
     },
-    singleLineInput: {
-      backgroundColor: "#fff",
-      borderWidth: 1,
-      borderColor: "#ccc",
-      borderRadius: 12, // Rounded corners for a softer look
-      paddingVertical: 12,
-      paddingHorizontal: 15,
-      fontSize: 16,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.1,
-      shadowRadius: 8,
-      marginBottom: 15,
-    },
-    multiLineInput: {
-      backgroundColor: "#fff",
-      borderWidth: 1,
-      borderColor: "#ccc",
-      borderRadius: 12,
-      paddingVertical: 12,
-      paddingHorizontal: 15,
-      fontSize: 16,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.1,
-      shadowRadius: 8,
-      height: 100, // Adjust height for multiline input
-      marginBottom: 15,
-    },
-    dropDown: {
-      backgroundColor: "#fff",
-      borderWidth: 1,
-      borderColor: "#ccc",
-      borderRadius: 12,
-      paddingVertical: 12,
-      paddingHorizontal: 15,
-      fontSize: 16,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.1,
-      shadowRadius: 8,
-      marginBottom: 15,
-    },
-    checkBox: {
-      marginBottom: 15,
-      flexDirection: "row",
-      alignItems: "center",
-    },
-    radioButton: {
-      marginBottom: 15,
-      flexDirection: "row",
-      alignItems: "center",
-    },
+ 
+    
+   
     button: {
       backgroundColor: "#4A90E2",
       padding: 12,
@@ -406,12 +358,12 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: "#fff9f9", // Light background for logout
+      backgroundColor: "#fff9f9", 
       height: height,
       paddingHorizontal: 20,
     },
     logout: {
-      backgroundColor: "#4A90E2", // Red color for logout button
+      backgroundColor: "#4A90E2", 
       padding: 12,
       borderRadius: 12,
       marginVertical: 15,

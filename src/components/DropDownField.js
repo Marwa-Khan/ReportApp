@@ -10,7 +10,7 @@ const DropDownField = ( {dropDownData, setDropDownData}) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.label}>DropDown Field</Text>
+             <Text style={styles.label}>DropDown Field</Text>
 
             <DropDownPicker style={styles.dropdown}
                 open={open}
@@ -23,7 +23,7 @@ const DropDownField = ( {dropDownData, setDropDownData}) => {
                 containerStyle={styles.dropdownContainer}
                 placeholder="Select a day from list"
             />
-        </View>
+         </View>
     );
 };
 
@@ -32,20 +32,19 @@ const styles = StyleSheet.create({
     container: {
         // height: '60%',
         // flex: 1,
-        // justifyContent: 'center',
         // alignItems: 'center',
         // padding: 10,
         // backgroundColor: 'yellow',
         height: 105,
         padding: width * 0.03,
-        justifyContent: 'center',
-        // alignItems: 'center',
+        // justifyContent: 'center',
+        alignSelf: 'center',
     },
     label: {
-        fontSize: width * 0.04, // Dynamic font size
-        color: '#333', // Dark color for better readability
+        fontSize: width * 0.04, 
+        color: '#333', 
         marginBottom: height * 0.01,
-        fontWeight: '600', // Bold label
+        fontWeight: '600', 
         marginRight: width * 0.3,
     },
     dropdown: {

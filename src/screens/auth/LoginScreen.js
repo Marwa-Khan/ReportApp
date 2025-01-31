@@ -95,9 +95,7 @@ const LoginScreen = () => {
                     </TouchableOpacity>
                 )}
 
-                {/* <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
-                    <Text style={styles.forgotPassword}>Forgot Password?</Text>
-                </TouchableOpacity> */}
+                
             </View>
         </SafeAreaView>
     );
@@ -164,12 +162,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: '600',
     },
-    // forgotPassword: {
-    //     marginTop: 15,
-    //     color: '#007BFF',
-    //     fontSize: 14,
-    //     fontWeight: '500',
-    // },
+   
     loader: {
         marginVertical: 20,
     },

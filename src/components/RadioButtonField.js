@@ -32,8 +32,8 @@ const RadioButtonField = ({ radioData, setRadioData }) => {
                 radioButtons={radioData}
                 onPress={(val) => handleSelect(val)} // Handle selection
                 selectedId={selectedId} // Set the selected ID for the RadioGroup
-                layout="column" // Layout of the radio buttons (vertical)
-                containerStyle={styles.radioGroupContainer} // Container styling
+                layout="column" 
+                containerStyle={styles.radioGroupContainer} 
             />
         </View>
     );
@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 3,
         marginVertical: 10,
+
     },
     label: {
         fontSize: 16,
@@ -59,6 +60,7 @@ const styles = StyleSheet.create({
     },
     radioGroupContainer: {
         paddingVertical: 5,
+        alignSelf:'flex-start'
     },
 });
 

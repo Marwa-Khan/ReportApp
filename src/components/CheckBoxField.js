@@ -6,7 +6,6 @@ const MultiCheckBoxField = ({ checkBoxData, setCheckBoxData }) => {
     console.log("checkBoxData", checkBoxData);
   const [selectedIds, setSelectedIds] = useState(null);
 
-  // Ensure default selection is correctly set on initial render
   useEffect(() => {
     const preselectedIds = checkBoxData
       ?.filter((item) => item.selected)
@@ -59,6 +58,7 @@ const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    marginLeft: 8
   },
   checkboxContainer: {
     flexDirection: "row",
@@ -69,10 +69,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   label: {
-    fontSize: width * 0.04, // Dynamic font size
-        color: '#333', // Dark color for better readability
+    fontSize: width * 0.04, 
+        color: '#333', 
         marginBottom: height * 0.01,
-        fontWeight: '600', // Bold label
+        fontWeight: '600', 
         marginRight: width * 0.3,
   },
 });
