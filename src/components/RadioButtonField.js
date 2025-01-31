@@ -25,8 +25,8 @@ const RadioButtonField = ({ radioData, setRadioData }) => {
     };
 
     return (
-        <View style={{flex:1, backgroundColor:'orange', height: '20%', padding: 10}}>
-            <Text>Please select an option:</Text>
+        <View style={styles.container}>
+            <Text style={styles.label}>Please select an option:</Text>
             <RadioGroup
             
                 radioButtons={radioData}
@@ -40,8 +40,25 @@ const RadioButtonField = ({ radioData, setRadioData }) => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#fff',
+        padding: 15,
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+        marginVertical: 10,
+    },
+    label: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 10,
+    },
     radioGroupContainer: {
-        // marginTop: 10,
+        paddingVertical: 5,
     },
 });
 

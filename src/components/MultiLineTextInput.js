@@ -7,13 +7,13 @@ const MultiLineTextInput = ({multiText, setMultiText}) => {
     return (
         
             <View style={styles.container}>
-                <Text style={styles.label}>MultiLine Text Input</Text>
+                <Text style={styles.label}>Multi Line Text Input</Text>
                 <View style={styles.viewInput}>
                 <TextInput style={styles.input}
                     multiline
                     numberOfLines={3}
                     
-                    placeholder="Enter multiline text"
+                    placeholder="Enter multi line text"
                     value={multiText}
                     onChangeText={(text)=>setMultiText(text)}
                 />
@@ -22,44 +22,50 @@ const MultiLineTextInput = ({multiText, setMultiText}) => {
       
     );
 };
- const { width, height } = Dimensions.get('window');
- const styles = StyleSheet.create({
-        container: {
-            marginVertical:15,
-            height: 200,
-            width: '90%',
-            justifyContent: 'center',
-            alignSelf: 'center',
-            alignItems: 'center',
-            // padding: width * 0.05,
-            backgroundColor:'yellow'
-        },
-        label: {
-            
-            fontSize: width * 0.04,
-            // marginBottom: height * 0.01,
-        },
-        viewInput:{
-            
-            width: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: 140,
-            
-        },
-        input: {
-            width:'100%',
-            height: 140,
-            fontSize:13,
-            borderColor: 'gray',
-            borderWidth: 1,
-            color:'black',
-            // justifyContent: 'center',
-            // alignItems: 'center',
-            paddingHorizontal: width * 0.02,
-            textAlignVertical:'top',
-            backgroundColor:'red'
-        },
-    
-    });
+const { width, height } = Dimensions.get('window');
+
+const styles = StyleSheet.create({
+    container: {
+        marginVertical: 15,
+        height: 220, // Adjusted height to fit the input field with padding
+        width: '90%',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ffffff', // Changed to white for a clean look
+        borderRadius: 10, // Rounded corners
+        padding: 15, // Added padding for spacing inside the container
+        shadowColor: "#000", // Shadow color
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        elevation: 5, // Android shadow effect
+    },
+    label: {
+        fontSize: width * 0.04, // Dynamic font size
+        color: '#333', // Dark color for better readability
+        marginBottom: height * 0.01,
+        fontWeight: '600', // Bold label
+        marginRight: width * 0.3, // Added margin for better alignment
+    },
+    viewInput: {
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 140, // Adjust height for input
+    },
+    input: {
+        width: '100%',
+        height: 140, // Input area size
+        fontSize: 16, // Increased font size for better readability
+        borderColor: '#ccc', // Soft border color
+        borderWidth: 1,
+        borderRadius: 8, // Rounded corners for the input field
+        color: '#333', // Dark text color for the input
+        paddingHorizontal: width * 0.04, // Padding inside the input
+        textAlignVertical: 'top', // Align text at the top of the input area
+        backgroundColor: '#f9f9f9', // Light background color for the input field
+    },
+});
+
 export default MultiLineTextInput;

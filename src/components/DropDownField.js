@@ -35,13 +35,18 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
         // alignItems: 'center',
         // padding: 10,
-        backgroundColor: 'yellow',
-        height: 100,
+        // backgroundColor: 'yellow',
+        height: 105,
         padding: width * 0.03,
+        justifyContent: 'center',
+        // alignItems: 'center',
     },
     label: {
-        fontSize: width * 0.04,
+        fontSize: width * 0.04, // Dynamic font size
+        color: '#333', // Dark color for better readability
         marginBottom: height * 0.01,
+        fontWeight: '600', // Bold label
+        marginRight: width * 0.3,
     },
     dropdown: {
         width: width * 0.8,

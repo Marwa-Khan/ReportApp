@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, ActivityIndicator } from 'react-native';
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
-import { Dimensions } from 'react-native';
+import {
+    View, Text, TextInput, Button, StyleSheet,
+    Alert, ActivityIndicator, TouchableOpacity
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ApiEndPoint, baseURL } from '../../hooks';
-import Navigation from '../../navigation/Navigation';
-import {
-    useNavigation,
-  } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const LoginScreen = () => {
     const navigation = useNavigation();
@@ -17,12 +16,8 @@ const LoginScreen = () => {
     const [loading, setLoading] = useState(false);
 
     const handleLogin = async () => {
-        
         const loginApiEndpoint = `${baseURL}${ApiEndPoint.loginApi}`;
         console.log('Login API Endpoint:', loginApiEndpoint);
-        console.log('User Name:', userName);
-        console.log('User ID:', uuid);
-        console.log('Password:', password);
 
         setLoading(true);
 
@@ -32,41 +27,32 @@ const LoginScreen = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ "uuid": uuid, "password": password }), //convert object to string to send it to web server
+                body: JSON.stringify({ "uuid": uuid, "password": password }),
             });
 
             const statusCode = response.status;
-            console.log('Response Status Code:', statusCode); // Log the response status code
+            const rawResponse = await response.text();
 
-            const rawResponse = await response.text(); // Get the response as text
-            console.log('Raw Response:', rawResponse); // Log the raw response
+            console.log('Response Status Code:', statusCode);
+            console.log('Raw Response:', rawResponse);
 
-            // Check if response status is in the 2xx range (successful)
-            // if (statusCode >= 200 && statusCode < 300) {
-                console.log('Login successful!');
-                try {
-                    const data = JSON.parse(rawResponse); //  parsing the string response as object
-                    console.log('Parsed Response:', data);
+            try {
+                const data = JSON.parse(rawResponse);
+                console.log('Parsed Response:', data);
 
-                    if (data.success) {
-                        await AsyncStorage.setItem('userToken', data.token);
-                        await AsyncStorage.setItem('userData', JSON.stringify(data.user));
-                        Alert.alert('Success', `Welcome, ${data.user.name}!`);
-                        navigation.navigate("Home");
-                     
+                if (data.success) {
+                    await AsyncStorage.setItem('userToken', data.token);
+                    await AsyncStorage.setItem('userData', JSON.stringify(data.user));
+                    Alert.alert('Success', `Welcome, ${data.user.name}!`);
+                    navigation.navigate("Home");
 
-                    } else {
-                        Alert.alert('Error', 'Login failed. Please check your credentials.');
-                    }
-                } catch (parseError) {
-                    console.error('Error parsing JSON:', parseError);
-                    Alert.alert('Error', 'Failed to parse the server response.');
+                } else {
+                    Alert.alert('Error', 'Login failed. Please check your credentials.');
                 }
-            // } else {
-            //     // Handle non-2xx responses, like 404 or 500 errors
-            //     Alert.alert('Error', `Server error: ${statusCode}`);
-            //     console.error('Error response:', rawResponse);
-            // }
+            } catch (parseError) {
+                console.error('Error parsing JSON:', parseError);
+                Alert.alert('Error', 'Failed to parse the server response.');
+            }
         } catch (error) {
             console.error('Error during login:', error);
             Alert.alert('Error', 'Something went wrong. Please try again later.');
@@ -76,55 +62,116 @@ const LoginScreen = () => {
     };
 
     return (
-        
-                <View style={styles.container}>
-                    <Text style={styles.label}>User Name</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Enter userName"
-                        value={userName}
-                        onChangeText={setUserName}
-                        autoCapitalize="none"
-                    />
-                    <Text style={styles.label}>Password</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Enter Password"
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry
-                        autoCapitalize="none"
-                    />
-                    {loading ? (
-                        <ActivityIndicator size="large" color="#0000ff" /> // Show loading spinner while logging in
-                    ) : (
-                    <Button title="Login" onPress={handleLogin} disabled={loading} />
-                    )}
-                </View>
-        
+        <SafeAreaView style={styles.safeArea}>
+            <View style={styles.container}>
+                <Text style={styles.heading}>Login</Text>
+
+                <Text style={styles.label}>Username</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter your username"
+                    value={userName}
+                    onChangeText={setUserName}
+                    autoCapitalize="none"
+                    placeholderTextColor="#999"
+                />
+
+                <Text style={styles.label}>Password</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter your password"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                    autoCapitalize="none"
+                    placeholderTextColor="#999"
+                />
+
+                {loading ? (
+                    <ActivityIndicator size="large" color="#007BFF" style={styles.loader} />
+                ) : (
+                    <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+                        <Text style={styles.loginButtonText}>Login</Text>
+                    </TouchableOpacity>
+                )}
+
+                {/* <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
+                    <Text style={styles.forgotPassword}>Forgot Password?</Text>
+                </TouchableOpacity> */}
+            </View>
+        </SafeAreaView>
     );
 };
 
-const { width, height } = Dimensions.get('window');
-
 const styles = StyleSheet.create({
-    container: {
+    safeArea: {
         flex: 1,
+        backgroundColor: '#F5F5F5',
+    },
+    container: {
+        // flex: 1,
+        width: '90%',
+        height: '90%',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: width * 0.05,
-
+        paddingHorizontal: 20,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        marginHorizontal: 20,
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
+        shadowOffset: { width: 0, height: 2 },
+        alignSelf: 'center', 
+        marginTop: 30,
+    },
+    heading: {
+        fontSize: 26,
+        fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 20,
     },
     label: {
-        fontSize: width * 0.04,
-        marginBottom: height * 0.01,
+        alignSelf: 'flex-start',
+        fontSize: 16,
+        fontWeight: '500',
+        marginBottom: 5,
+        color: '#333',
     },
     input: {
-        height: height * 0.06,
-        borderColor: 'gray',
+        width: '100%',
+        height: 50,
+        borderColor: '#ccc',
         borderWidth: 1,
-        marginBottom: height * 0.02,
-        paddingHorizontal: width * 0.02,
+        borderRadius: 8,
+        paddingHorizontal: 15,
+        fontSize: 16,
+        marginBottom: 15,
+        backgroundColor: '#F8F9FA',
+    },
+    loginButton: {
+        width: '100%',
+        backgroundColor: '#007BFF',
+        paddingVertical: 15,
+        borderRadius: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10,
+    },
+    loginButtonText: {
+        fontSize: 18,
+        color: '#fff',
+        fontWeight: '600',
+    },
+    // forgotPassword: {
+    //     marginTop: 15,
+    //     color: '#007BFF',
+    //     fontSize: 14,
+    //     fontWeight: '500',
+    // },
+    loader: {
+        marginVertical: 20,
     },
 });
 

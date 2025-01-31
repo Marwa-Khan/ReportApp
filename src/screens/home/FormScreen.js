@@ -185,7 +185,7 @@ const FormScreen = () => {
         const jsonResponse = await response.json();
         console.log("Form submitted successfully:", jsonResponse);
         // Alert.alert("Success", "Form submitted successfully!");
-        Alert.alert('Alert Title', 'Form Submission', [
+        Alert.alert('Alert', 'Confirm Form Submission', [
             {
               text: 'Cancel',
               onPress: () => console.log('Cancel Pressed'),
@@ -230,7 +230,7 @@ const logout = async () => {
       if (response.ok) {
         // Clear token and user data from local storage
         AsyncStorage.removeItem("userToken"); // Clear token
-        // AsyncStorage.removeItem("userData"); // Clear user data
+        AsyncStorage.removeItem("userData"); // Clear user data
         console.log("Logout successful!");
         // Optionally redirect to login page or show confirmation
         Alert.alert("Success", "You have logged out successfully.");
@@ -254,7 +254,7 @@ const logout = async () => {
     
 
       <View style={styles.container}>
-        <Text style={styles.label}>FormScreen</Text>
+        <Text style={styles.label}>Form Screen</Text>
         {/* Components */}
         <SingleLineTextInput textData={textData} setTextData={setTextData} />
         <MultiLineTextInput multiText={multiText} setMultiText={setMultiText} />
@@ -308,64 +308,145 @@ const logout = async () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    backgroundColor: "pink",
-    marginBottom: 100,
-  },
-  scrollView: {
-    flex: 1,
-    backgroundColor: "yellow",
-    // Do not use flex: 1 here
-    width: "100%",
-    paddingBottom: 100,
-  },
-  contentContainer: {
-    flex: 1, // Allow content to grow dynamically
-    // paddingBottom: 120, // Add spacing to avoid cutting off content
-    // paddingHorizontal: width * 0.05,
-    // backgroundColor: "blue",
-  },
-  label: {
-    fontSize: width * 0.05,
-    marginBottom: height * 0.02,
-  },
-  button: {
-    backgroundColor: "blue",
-    padding: 10,
-    borderRadius: 5,
-    marginVertical: 10,
-    width: "50%",
-    alignSelf: "center",
-  },
-  buttonText: {
-    color: "white",
-    textAlign: "center",
-    fontSize: 18,
-  },
-  logoutContainer:{
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "yellow",
-    height: height
-  },
-  logout:{
-    backgroundColor: "blue",
-    padding: 10,
-    borderRadius: 5,
-    marginVertical: 10,
-    width: "50%",
-    justifyContent: "center",
-    alignContent: "center",
-    alignSelf: "center",
-  }, 
-  logoutText:{
-    color: "white",
-    justifyContent: "center",
-    textAlign: "center",
-  }
-});
+    container: {
+      flex: 1,
+      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+      backgroundColor: "#f5f5f5", // Lighter background color for a cleaner look
+      paddingHorizontal: 20,
+      paddingBottom: 20,
+    },
+    scrollView: {
+      flex: 1,
+      backgroundColor: "#ffffff",
+      width: "100%",
+      paddingBottom: 20,
+    },
+    label: {
+      fontSize: width * 0.06, // Slightly larger font size for emphasis
+      fontWeight: "600", // Make label bold for better readability
+      color: "#333",
+      marginBottom: 10,
+      marginTop: 10, // Space above label
+    },
+    inputFields: {
+      marginBottom: 20,
+    },
+    singleLineInput: {
+      backgroundColor: "#fff",
+      borderWidth: 1,
+      borderColor: "#ccc",
+      borderRadius: 12, // Rounded corners for a softer look
+      paddingVertical: 12,
+      paddingHorizontal: 15,
+      fontSize: 16,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      marginBottom: 15,
+    },
+    multiLineInput: {
+      backgroundColor: "#fff",
+      borderWidth: 1,
+      borderColor: "#ccc",
+      borderRadius: 12,
+      paddingVertical: 12,
+      paddingHorizontal: 15,
+      fontSize: 16,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      height: 100, // Adjust height for multiline input
+      marginBottom: 15,
+    },
+    dropDown: {
+      backgroundColor: "#fff",
+      borderWidth: 1,
+      borderColor: "#ccc",
+      borderRadius: 12,
+      paddingVertical: 12,
+      paddingHorizontal: 15,
+      fontSize: 16,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      marginBottom: 15,
+    },
+    checkBox: {
+      marginBottom: 15,
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    radioButton: {
+      marginBottom: 15,
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    button: {
+      backgroundColor: "#4A90E2",
+      padding: 12,
+      borderRadius: 12,
+      marginVertical: 15,
+      width: "60%",
+      alignSelf: "center",
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+    },
+    buttonText: {
+      color: "#fff",
+      textAlign: "center",
+      fontSize: 18,
+      fontWeight: "500",
+    },
+    logoutContainer: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#fff9f9", // Light background for logout
+      height: height,
+      paddingHorizontal: 20,
+    },
+    logout: {
+      backgroundColor: "#4A90E2", // Red color for logout button
+      padding: 12,
+      borderRadius: 12,
+      marginVertical: 15,
+      width: "60%",
+      justifyContent: "center",
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+    },
+    logoutText: {
+      color: "#fff",
+      fontSize: 18,
+      fontWeight: "500",
+      textAlign: "center",
+    },
+    dateButton: {
+      backgroundColor: "#D1E8FF",
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderRadius: 12,
+      marginVertical: 15,
+      alignSelf: "center",
+      borderWidth: 1,
+      borderColor: "#4A90E2",
+    },
+    dateButtonText: {
+      fontSize: 16,
+      color: "#4A90E2",
+      textAlign: "center",
+    },
+  });
+  
+  
+  
 
 export default FormScreen;

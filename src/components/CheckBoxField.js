@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import CheckBox from "react-native-check-box";
 
 const MultiCheckBoxField = ({ checkBoxData, setCheckBoxData }) => {
@@ -55,6 +55,7 @@ const MultiCheckBoxField = ({ checkBoxData, setCheckBoxData }) => {
   );
 };
 
+const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     padding: 10,
@@ -68,7 +69,11 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   label: {
-    fontSize: 16,
+    fontSize: width * 0.04, // Dynamic font size
+        color: '#333', // Dark color for better readability
+        marginBottom: height * 0.01,
+        fontWeight: '600', // Bold label
+        marginRight: width * 0.3,
   },
 });
 

@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import React from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import convertTimestampToDate from '../utils/helper';
@@ -21,17 +21,39 @@ const DateField = ({dateVal, setDateVal, setFormattedDate,setOpenDateCalendar}) 
     }
   };
   return (
-    <View>
+    <View style={styles.container}>
       <DateTimePicker 
                   mode="datetime"
                   value={dateVal}
-                  style={{width: 300, opacity: 1, height: 30, marginTop: 50}}
+                //   style={{width: 300, opacity: 1, height: 30, marginTop: 50}}
+                  style={styles.datePicker}
                   onChange={handleDateChange}
                
                 //   minuteInterval={{}}
                 />
     </View>
   )
-}
+};
+
+const styles = StyleSheet.create({
+    container: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 10,
+      backgroundColor: '#fff',
+      borderRadius: 10,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 3,
+      marginVertical: 10,
+    },
+    datePicker: {
+      width: 320,
+      height: 50,
+      marginTop: 10,
+    },
+  });
 
 export default DateField
