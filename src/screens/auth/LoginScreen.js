@@ -16,6 +16,7 @@ const LoginScreen = () => {
     const [loading, setLoading] = useState(false);
 
     const handleLogin = async () => {
+        // AsyncStorage.getItem('userToken');
         const loginApiEndpoint = `${baseURL}${ApiEndPoint.loginApi}`;
         console.log('Login API Endpoint:', loginApiEndpoint);
 

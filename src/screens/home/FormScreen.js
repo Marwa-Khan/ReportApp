@@ -225,15 +225,20 @@ const logout = async () => {
           "Authorization": `Bearer ${token}` // current token for authorization
         },
       });
+
+      console.log("check logout response:", response);
   
       // Check if the response is successful
       if (response.ok) {
         // Clear token and user data from local storage
-        AsyncStorage.removeItem("userToken"); // Clear token
-        AsyncStorage.removeItem("userData"); // Clear user data
+        await AsyncStorage.removeItem("userToken"); // Clear token
+        await AsyncStorage.removeItem("userData"); // Clear user data
         console.log("Logout successful!");
+        console.log("getting token after logout to check:", await AsyncStorage.getItem('userToken'));
+
         
         Alert.alert("Success", "You have logged out successfully.");
+        navigation.navigate("Auth")
       } else {
         const errorResponse = await response.text();
         console.error("Failed to logout:", response.status, errorResponse);
@@ -293,7 +298,7 @@ const logout = async () => {
 
       :
       <View style={styles.logoutContainer}>
-        <TouchableOpacity style={styles.logout} onPress={()=>  (logout(), navigation.navigate("Auth"))}>
+        <TouchableOpacity style={styles.logout} onPress={()=>  (logout())}>
         <Text style={styles.logoutText}>Log Out</Text>
       </TouchableOpacity>
       

@@ -3,12 +3,14 @@ import { View, Text, TextInput, StyleSheet, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DropDownPicker from 'react-native-dropdown-picker';
 
+
 const DropDownField = ( {dropDownData, setDropDownData}) => {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
    
 
     return (
+        
         <View style={styles.container}>
              <Text style={styles.label}>DropDown Field</Text>
 
@@ -21,6 +23,7 @@ const DropDownField = ( {dropDownData, setDropDownData}) => {
                 onChangeValue={(val)=>console.log(val)}
                 setItems={setDropDownData}
                 containerStyle={styles.dropdownContainer}
+                listMode="SCROLLVIEW" //to enable scrolling for android only
                 placeholder="Select a day from list"
             />
          </View>

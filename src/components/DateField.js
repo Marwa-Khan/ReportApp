@@ -8,26 +8,27 @@ const DateField = ({dateVal, setDateVal, setFormattedDate,setOpenDateCalendar}) 
   // Function to handle date change from the DateTimePicker
   const handleDateChange = (event, selectedDate) => {
     console.log("selectedDate",selectedDate, "event", event);
-    if (event.type === "set") {
+    if (event.type === "set" && selectedDate) {
       setDateVal(selectedDate); // Update the state with the new date
       setFormattedDate(convertTimestampToDate(selectedDate.getTime())); // Format the date and update
-      setOpenDateCalendar(false); 
     }
-    if (event.type === "dismissed") {
-      setOpenDateCalendar(false); 
-    }
-    if (event.type === "neutralButtonPressed") {
-      setOpenDateCalendar(false); 
-    }
+    setOpenDateCalendar(false); 
+    // if (event.type === "dismissed") {
+    //   setOpenDateCalendar(false); 
+    // }
+    // if (event.type === "neutralButtonPressed") {
+    //   setOpenDateCalendar(false); 
+    // }
   };
   return (
     <View style={styles.container}>
       <DateTimePicker 
-                  mode="datetime"
-                  value={dateVal}
+                  mode="date"
+                  value={dateVal || new Date()}
                 //   style={{width: 300, opacity: 1, height: 30, marginTop: 50}}
                   style={styles.datePicker}
                   onChange={handleDateChange}
+                //   maximumDate={new Date()}  //restricting user to select future dates
                
                 //   minuteInterval={{}}
                 />
